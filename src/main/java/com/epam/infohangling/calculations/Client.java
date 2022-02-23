@@ -1,19 +1,34 @@
 package com.epam.infohangling.calculations;
 
-import com.epam.infohangling.Context;
+import com.epam.infohangling.entity.expression.AbstractExpression;
+import com.epam.infohangling.entity.expression.AbstractMathExpression;
+import com.epam.infohangling.entity.expression.NonTerminalExpressionNumber;
+import com.epam.infohangling.entity.expression.TerminalExpressionDivide;
+import com.epam.infohangling.entity.expression.TerminalExpressionMinus;
+import com.epam.infohangling.entity.expression.TerminalExpressionMultiply;
+import com.epam.infohangling.entity.expression.TerminalExpressionPlus;
+import com.epam.infohangling.exeptions.HandledException;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Client {
+    private AbstractExpression expression;
+    private Context context;
 
-    private ArrayList<AbstractMathExpression> listExpression;
+    private final ArrayList<AbstractMathExpression> listExpression;
 
-    public Client(String expression) {
+    public Client(String expression, Map<Character, Integer> variablesMap) {
         listExpression = new ArrayList<>();
-        parse(expression);
+        try {
+            parseExpression(expression, variablesMap);
+        } catch (HandledException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void parse(String expression) {
+    private void parseExpression(String expression, Map<Character, Integer> variablesMap) throws HandledException {
         for (String lexeme : expression.split("\\p{Blank}+")) {
             if (lexeme.isEmpty()) {
                 continue;
@@ -33,19 +48,28 @@ public class Client {
                     listExpression.add(new TerminalExpressionDivide());
                     break;
                 default:
-//                    Scanner scan = new Scanner(lexeme);
-//                    if (scan.hasNextInt()) {
-//                        listExpression.add(
-//                                new NonterminalExpressionNumber(scan.nextInt()));
-//                    }
+                    Scanner scanner = new Scanner(lexeme);
+                    if (scanner.hasNextInt()) {
+                        Integer number = scanner.nextInt();
+                        listExpression.add(new NonTerminalExpressionNumber(number));
+                    } else {
+                        if (variablesMap.containsKey(temp)) {
+                            Integer value = variablesMap.get(temp);
+                            listExpression.add(new NonTerminalExpressionNumber(value));
+                        }
+                    }
             }
         }
     }
 
-    public Number calculate() {
+    public Integer calculate() {
         Context context = new Context();
         for (AbstractMathExpression terminal : listExpression) {
-            terminal.interpret(context);
+            try {
+                terminal.interpret(context);
+            } catch (HandledException e) {
+                e.printStackTrace();
+            }
         }
         return context.popValue();
     }

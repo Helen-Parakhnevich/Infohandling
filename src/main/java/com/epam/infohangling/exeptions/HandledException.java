@@ -1,4 +1,4 @@
-package com.epam.infohangling.service;
+package com.epam.infohangling.exeptions;
 
 public class HandledException extends Exception {
 

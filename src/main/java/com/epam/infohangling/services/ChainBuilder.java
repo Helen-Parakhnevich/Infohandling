@@ -1,7 +1,6 @@
-package com.epam.infohangling;
+package com.epam.infohangling.services;
 
 import com.epam.infohangling.parsers.ParagraphParser;
-import com.epam.infohangling.parsers.Parser;
 import com.epam.infohangling.parsers.SentenceParser;
 import com.epam.infohangling.parsers.TextParser;
 

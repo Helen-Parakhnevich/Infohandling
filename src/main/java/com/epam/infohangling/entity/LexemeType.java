@@ -1,4 +1,4 @@
-package com.epam.infohangling;
+package com.epam.infohangling.entity;
 
 public enum LexemeType {
 

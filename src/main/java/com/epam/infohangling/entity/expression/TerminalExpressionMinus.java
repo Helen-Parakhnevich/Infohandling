@@ -1,6 +1,7 @@
-package com.epam.infohangling.calculations;
+package com.epam.infohangling.entity.expression;
 
-import com.epam.infohangling.Context;
+import com.epam.infohangling.calculations.Context;
+import com.epam.infohangling.entity.expression.AbstractMathExpression;
 
 public class TerminalExpressionMinus extends AbstractMathExpression {
 

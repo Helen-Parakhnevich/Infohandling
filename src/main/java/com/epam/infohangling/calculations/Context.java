@@ -1,9 +1,10 @@
-package com.epam.infohangling;
+package com.epam.infohangling.calculations;
 
 import java.util.ArrayDeque;
 
 public class Context {
-    private ArrayDeque<Integer> contextValues = new ArrayDeque<>();
+
+    private final ArrayDeque<Integer> contextValues = new ArrayDeque<>();
 
     public Integer popValue() {
         return contextValues.pop();
